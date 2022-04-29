@@ -1,5 +1,6 @@
 import json
 import os
+import discord
 from discord.ext import commands
 
 with open("data.json", "r") as jsonTemp:
@@ -13,8 +14,7 @@ async def on_ready():
 
 @yuyuyu.event
 async def on_member_join(member):
-    # channel = yuyuyu.get_channel(jsonData["welcome-channel"])
-    # await channel.send(f"{member}加入了频道，我们鼓掌。")
-    print(f"{member} joined server!")
+    channel = yuyuyu.get_channel(jsonData["welcome-channel"])
+    await channel.send(f"{member}加入了频道，我们鼓掌。")
 
 yuyuyu.run(os.environ['DPY_TOKEN'])
