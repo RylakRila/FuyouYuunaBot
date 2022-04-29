@@ -13,4 +13,4 @@ yuyuyu_bot = commands.Bot(command_prefix=jsonData['prefix'])
 async def on_ready():
     print(">> Bot is Online <<")
 
-yuyuyu_bot.run(token)
+yuyuyu_bot.run(process.env.DPY_TOKEN)
