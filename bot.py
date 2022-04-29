@@ -13,7 +13,8 @@ async def on_ready():
 
 @yuyuyu.event
 async def on_member_join(member):
-    channel = yuyuyu.get_channel(969570984044658688)
-    await channel.send(f"{member}加入了频道，我们鼓掌。")
+    # channel = yuyuyu.get_channel(jsonData["welcome-channel"])
+    # await channel.send(f"{member}加入了频道，我们鼓掌。")
+    print(f"{member} joined server!")
 
 yuyuyu.run(os.environ['DPY_TOKEN'])
