@@ -19,4 +19,8 @@ async def on_member_join(member):
     await channel.send(f"{member}加入了频道，我们鼓掌。")
     print(f"{member} joined server!")
 
+@yuyuyu.event
+async def on_member_remove(member):
+    pass
+
 yuyuyu.run(os.environ['DPY_TOKEN'])
