@@ -1,5 +1,5 @@
 import json
-import discord
+import os
 from discord.ext import commands
 
 with open("data.json", "r") as jsonTemp:
@@ -13,4 +13,4 @@ yuyuyu_bot = commands.Bot(command_prefix=jsonData['prefix'])
 async def on_ready():
     print(">> Bot is Online <<")
 
-yuyuyu_bot.run(process.env.DPY_TOKEN)
+yuyuyu_bot.run(os.environ['DPY_TOKEN'])
