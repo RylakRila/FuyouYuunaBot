@@ -7,9 +7,7 @@ from discord.ext import commands
 with open("data.json", "r") as jsonTemp:
     jsonData = json.load(jsonTemp)
 
-yuyuyu = commands.Bot(command_prefix=jsonData['prefix'])
-
-# , intents=discord.Intents.all()
+yuyuyu = commands.Bot(command_prefix=jsonData['prefix'], intents=discord.Intents.all())
 
 @yuyuyu.event
 async def on_ready():
