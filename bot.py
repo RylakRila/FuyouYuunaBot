@@ -1,4 +1,3 @@
-from dis import disco
 import json
 import os
 import discord
