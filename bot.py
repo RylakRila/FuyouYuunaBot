@@ -16,10 +16,9 @@ async def on_ready():
 async def on_member_join(member):
     channel = yuyuyu.get_channel(jsonData["welcome_channel"])
     await channel.send(f"@{member} 加入了频道，我们鼓掌。")
-    print(f"{member} joined server!")
 
 @yuyuyu.command()
 async def ping(ctx):
-    await ctx.send(yuyuyu.latency)
+    await ctx.send(f"{round(yuyuyu.latency*1000)}(ms)")
 
 yuyuyu.run(os.environ['DPY_TOKEN'])
