@@ -21,4 +21,8 @@ async def on_member_join(member):
 async def ping(ctx):
     await ctx.send(f"{round(yuyuyu.latency*1000)}(ms)")
 
+@yuyuyu.command()
+async def test(ctx):
+    await ctx.send(f"This is a test. ")
+
 yuyuyu.run(os.environ['DPY_TOKEN'])
