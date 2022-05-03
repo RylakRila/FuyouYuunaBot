@@ -18,16 +18,16 @@ async def on_member_join(member):
     channel = yuyuyu.get_channel(jsonData["welcome_channel"])
     await channel.send(f"{member} 加入了频道，我们鼓掌。")
 
-@yuyuyu.command(name="ping", brief="Retrieve the latency of bot in millisecond")
+@yuyuyu.command()
 async def ping(ctx):
     await ctx.send(f"{round(yuyuyu.latency*1000)}(ms)")
 
-@yuyuyu.command(name="YuYuYu meme", brief="Randomly post a meme of YuYuYu anime in channel")
+@yuyuyu.command()
 async def yuyuyumeme(ctx):
     random_img = random.choice(jsonData["meme.yuyuyu"])
     await ctx.send(random_img)
 
-@yuyuyu.command(name="Delete Multiple Message", brief="Delete multiple messages of a give number")
+@yuyuyu.command()
 async def clear(ctx, amount=1):
     if ctx.message.author.id == ctx.guild.owner_id:
         amount += 1
