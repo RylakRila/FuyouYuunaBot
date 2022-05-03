@@ -35,7 +35,8 @@ async def yuyuyumeme(ctx):
 @yuyuyu.command()
 @commands.has_permissions(administrator=True)
 async def clear(ctx, amount=1):
+    amount += 1
     await ctx.channel.purge(limit=amount)
-    await ctx.message.delete()
+    await ctx.send(f"{amount - 1}条消息被{ctx.author.mention}删除")
 
 yuyuyu.run(os.environ['DPY_TOKEN'])
