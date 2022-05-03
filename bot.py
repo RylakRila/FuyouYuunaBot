@@ -24,8 +24,7 @@ async def ping(ctx):
 
 @yuyuyu.command()
 async def yuyuyumeme(ctx):
-    img_number = random.randint(0, 11)
-    img = discord.File(jsonData["meme.yuyuyu"][img_number])
-    await ctx.send(File=img)
+    random_img = random.choice(jsonData["meme.yuyuyu"])
+    await ctx.send(random_img)
 
 yuyuyu.run(os.environ['DPY_TOKEN'])
