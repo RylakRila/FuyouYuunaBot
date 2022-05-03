@@ -18,6 +18,11 @@ async def on_member_join(member):
     channel = yuyuyu.get_channel(jsonData["welcome_channel"])
     await channel.send(f"{member} 加入了频道，我们鼓掌。")
 
+@yuyuyu.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("恁权限不够111")
+
 @yuyuyu.command()
 async def ping(ctx):
     await ctx.send(f"{round(yuyuyu.latency*1000)}(ms)")
@@ -28,9 +33,10 @@ async def yuyuyumeme(ctx):
     await ctx.send(random_img)
 
 @yuyuyu.command()
+@commands.has_permissions(administrator=True)
 async def clear(ctx, amount=1):
-    if ctx.message.author.id == ctx.guild.owner_id:
-        amount += 1
-        await ctx.channel.purge(limit=amount)
+    amount += 1
+    await ctx.channel.purge(limit=amount)
+    await ctx.message.delete()
 
 yuyuyu.run(os.environ['DPY_TOKEN'])
