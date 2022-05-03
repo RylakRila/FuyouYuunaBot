@@ -21,11 +21,11 @@ async def on_member_join(member):
 @yuyuyu.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send("恁权限不够111")
+        await ctx.send(f"{ctx.author.mention}恁权限不够111")
 
 @yuyuyu.command()
 async def ping(ctx):
-    await ctx.send(f"{round(yuyuyu.latency*1000)}(ms)")
+    await ctx.send(f"咱延迟是{round(yuyuyu.latency*1000)}(ms)")
 
 @yuyuyu.command()
 async def yuyuyumeme(ctx):
