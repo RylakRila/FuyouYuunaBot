@@ -16,7 +16,7 @@ async def on_ready():
 @yuyuyu.event
 async def on_member_join(member):
     channel = yuyuyu.get_channel(jsonData["welcome_channel"])
-    await channel.send(f"{member} 加入了频道，我们鼓掌。")
+    await channel.send(f"{member.mention}加入了频道，我们鼓掌。")
 
 @yuyuyu.event
 async def on_command_error(ctx, error):
