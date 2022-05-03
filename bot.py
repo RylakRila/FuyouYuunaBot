@@ -1,5 +1,4 @@
 import json
-from msilib.schema import File
 import os
 import discord
 import random
