@@ -33,6 +33,11 @@ async def yuyuyumeme(ctx):
     await ctx.send(random_img)
 
 @yuyuyu.command()
+async def fky(ctx):
+    random_cussing = random.choice(jsonData["cussing"])
+    await ctx.send(f"{ctx.author.mention}{random_cussing}")
+
+@yuyuyu.command()
 @commands.has_permissions(administrator=True)
 async def clear(ctx, amount=1):
     amount += 1
