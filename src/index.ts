@@ -1,21 +1,20 @@
-import { Client, GatewayIntentBits, TextChannel } from "discord.js";
+import { GatewayIntentBits } from "discord.js";
 import * as dotenv from 'dotenv';
-import config from './config.json';
 
-const yuyuyuBot = new Client({intents: [
+import Bot from "./Model/Bot";
+import { memberAddHandler, readyHandler } from "./Handler/Handler";
+
+import config from './JSON/config.json';
+
+const yuyuyuBot = new Bot({intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages
-]});
+]}, config.prefix);
 
-yuyuyuBot.on('ready', () => {
-    console.log('Ready!');
-});
+yuyuyuBot.once('ready', readyHandler);
 
-yuyuyuBot.on("guildMemberAdd", async member => {
-    let welcomeChannel = yuyuyuBot.channels.cache.get(config.welcome_channel) as TextChannel;
-    await welcomeChannel.send(`${member}加入了频道，我们鼓掌。`);
-});
+yuyuyuBot.on("guildMemberAdd", memberAddHandler);
 
 dotenv.config();
 yuyuyuBot.login(process.env.TOKEN);
