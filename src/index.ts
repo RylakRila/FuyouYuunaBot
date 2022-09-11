@@ -17,4 +17,4 @@ yuyuyuBot.once('ready', readyHandler);
 yuyuyuBot.on("guildMemberAdd", memberAddHandler);
 
 dotenv.config();
-yuyuyuBot.login(process.env.TOKEN);
+yuyuyuBot.start(process.env.TOKEN);
