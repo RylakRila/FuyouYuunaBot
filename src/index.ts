@@ -1,20 +1,55 @@
-import { GatewayIntentBits } from "discord.js";
+import { Client, GatewayIntentBits, Routes } from "discord.js";
+import { REST } from "discord.js";
 import * as dotenv from 'dotenv';
+import { memeHandler } from "./Handler/CommandHandler";
 
-import Bot from "./Model/Bot";
 import { memberAddHandler, readyHandler } from "./Handler/Handler";
 
-import config from './JSON/config.json';
+dotenv.config();
+const TOKEN = process.env.TOKEN as string;
+const CLIENT_ID = process.env.CLIENT_ID as string;
 
-const yuyuyuBot = new Bot({intents: [
+const yuyuyuBot = new Client({intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages
-]}, config.prefix);
+]});
+
+const commands = [
+    {
+        name: "meme",
+        description: "send a meme"
+    }
+];
+
+const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 yuyuyuBot.once('ready', readyHandler);
 
 yuyuyuBot.on("guildMemberAdd", memberAddHandler);
 
-dotenv.config();
-yuyuyuBot.start(process.env.TOKEN);
+yuyuyuBot.on("interactionCreate", async (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+    
+    switch(interaction.commandName) {
+        case "meme":
+            memeHandler(interaction);
+            break;
+        default:
+            break;
+    }
+});
+
+(async () => {
+    try {
+        console.log('Started refreshing app (/) commands.');
+        await rest.put(
+            Routes.applicationCommands(CLIENT_ID), 
+            { body: commands }
+        );
+        console.log('Finished refreshing app (/) commands.');
+        yuyuyuBot.login(TOKEN);
+    } catch (err) {
+        console.error(err);
+    }
+})();
