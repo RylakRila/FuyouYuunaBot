@@ -1,8 +1,9 @@
 import { Client, GatewayIntentBits, Routes } from "discord.js";
 import { REST } from "discord.js";
 import * as dotenv from 'dotenv';
-import { memeHandler } from "./Handler/CommandHandler";
 
+import memeCommand from "./Command/meme";
+import { memeHandler } from "./Handler/CommandHandler";
 import { memberAddHandler, readyHandler } from "./Handler/Handler";
 
 dotenv.config();
@@ -14,12 +15,8 @@ const yuyuyuBot = new Client({intents: [
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages
 ]});
-
 const commands = [
-    {
-        name: "meme",
-        description: "send a meme"
-    }
+    memeCommand
 ];
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
@@ -47,7 +44,7 @@ yuyuyuBot.on("interactionCreate", async (interaction) => {
             Routes.applicationCommands(CLIENT_ID), 
             { body: commands }
         );
-        console.log('Finished refreshing app (/) commands.');
+        
         yuyuyuBot.login(TOKEN);
     } catch (err) {
         console.error(err);
