@@ -6,6 +6,9 @@ const memeCommand = new SlashCommandBuilder()
     .addStringOption(option =>  
         option.setName('category')
             .setDescription('The category of the meme going to send')
-            .setRequired(true));
+            .setRequired(true)
+            .addChoices(
+                {name: "ゆゆゆ", value: "yuyuyu"}
+            ));
 
 export default memeCommand;
