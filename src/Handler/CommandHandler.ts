@@ -12,7 +12,7 @@ export async function memeHandler(interaction: ChatInputCommandInteraction) {
             link = resources.memes.yuyuyu[crypto.randomInt(0, totalNumber)];
             break;
         default:
-            link = `No link found in category: ${interaction.options.getString("category")}`;
+            link = `没有在该类中的梗图：${interaction.options.getString("category")}`;
             break;
     }
     
@@ -25,7 +25,5 @@ export async function clearHandler(interaction: ChatInputCommandInteraction) {
     await (<TextChannel>interaction.channel).bulkDelete(amount, false);
     await interaction.reply(`删除掉了${amount}条信息！`);
     
-    setTimeout(async () => {
-        await interaction.deleteReply()
-    }, 1000);
+    setTimeout(async () => await interaction.deleteReply(), 1000);
 }

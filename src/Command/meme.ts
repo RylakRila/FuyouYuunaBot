@@ -2,10 +2,10 @@ import { SlashCommandBuilder } from "discord.js";
 
 const memeCommand = new SlashCommandBuilder()
     .setName("meme")
-    .setDescription("Replies with one randome meme link in the database")
+    .setDescription("随即回复一个数据库中的meme图")
     .addStringOption(option =>  
         option.setName('category')
-            .setDescription('The category of the meme going to send')
+            .setDescription('meme图的类别')
             .setRequired(true)
             .addChoices(
                 {name: "ゆゆゆ", value: "yuyuyu"}
