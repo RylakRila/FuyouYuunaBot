@@ -1,14 +1,17 @@
 import { Client, GatewayIntentBits, Routes } from "discord.js";
 import { REST } from "discord.js";
 import * as dotenv from 'dotenv';
+import clearCommand from "./Command/clear";
 
 import memeCommand from "./Command/meme";
-import { memeHandler } from "./Handler/CommandHandler";
+import { clearHandler, memeHandler } from "./Handler/CommandHandler";
 import { memberAddHandler, readyHandler } from "./Handler/Handler";
 
 dotenv.config();
 const TOKEN = process.env.TOKEN as string;
 const CLIENT_ID = process.env.CLIENT_ID as string;
+
+const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 const yuyuyuBot = new Client({intents: [
     GatewayIntentBits.Guilds,
@@ -16,10 +19,9 @@ const yuyuyuBot = new Client({intents: [
     GatewayIntentBits.GuildMessages
 ]});
 const commands = [
-    memeCommand
+    memeCommand,
+    clearCommand
 ];
-
-const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 yuyuyuBot.once('ready', readyHandler);
 
@@ -31,6 +33,9 @@ yuyuyuBot.on("interactionCreate", async (interaction) => {
     switch(interaction.commandName) {
         case "meme":
             memeHandler(interaction);
+            break;
+        case "clear":
+            clearHandler(interaction);
             break;
         default:
             break;
