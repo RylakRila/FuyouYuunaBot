@@ -13,7 +13,7 @@ const CLIENT_ID = process.env.CLIENT_ID as string;
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
-const yuyuyuBot = new Client({intents: [
+const nogiSonoko = new Client({intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages
@@ -23,11 +23,11 @@ const commands = [
     clearCommand
 ];
 
-yuyuyuBot.once('ready', readyHandler);
+nogiSonoko.once('ready', readyHandler);
 
-yuyuyuBot.on("guildMemberAdd", memberAddHandler);
+nogiSonoko.on("guildMemberAdd", memberAddHandler);
 
-yuyuyuBot.on("interactionCreate", async (interaction) => {
+nogiSonoko.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
     
     switch(interaction.commandName) {
@@ -50,7 +50,7 @@ yuyuyuBot.on("interactionCreate", async (interaction) => {
             { body: commands }
         );
         
-        yuyuyuBot.login(TOKEN);
+        nogiSonoko.login(TOKEN);
     } catch (err) {
         console.error(err);
     }
