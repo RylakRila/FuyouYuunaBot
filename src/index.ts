@@ -1,11 +1,10 @@
 import { Client, GatewayIntentBits, Routes } from "discord.js";
 import { REST } from "discord.js";
 import * as dotenv from 'dotenv';
-import clearCommand from "./Command/clear";
 
-import memeCommand from "./Command/meme";
 import { clearHandler, memeHandler } from "./Handler/CommandHandler";
 import { memberAddHandler, readyHandler } from "./Handler/Handler";
+import commands from './Command/AllInOne';
 
 dotenv.config();
 const TOKEN = process.env.TOKEN as string;
@@ -18,10 +17,6 @@ const nogiSonoko = new Client({intents: [
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages
 ]});
-const commands = [
-    memeCommand,
-    clearCommand
-];
 
 nogiSonoko.once('ready', readyHandler);
 
