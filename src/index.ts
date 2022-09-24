@@ -22,15 +22,15 @@ nogiSonoko.once('ready', readyHandler);
 
 nogiSonoko.on("guildMemberAdd", memberAddHandler);
 
-nogiSonoko.on("interactionCreate", async (interaction) => {
+nogiSonoko.on("interactionCreate", async interaction => {
     if (!interaction.isChatInputCommand()) return;
     
     switch(interaction.commandName) {
         case "meme":
-            memeHandler(interaction);
+            await memeHandler(interaction);
             break;
         case "clear":
-            clearHandler(interaction);
+            await clearHandler(interaction);
             break;
         default:
             break;
