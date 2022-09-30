@@ -22,7 +22,7 @@ export async function memeHandler(interaction: ChatInputCommandInteraction) {
 export async function clearHandler(interaction: ChatInputCommandInteraction) {
     let amount = interaction.options.getNumber("n")!;
     
-    await (<TextChannel>interaction.channel).bulkDelete(amount, false);
+    await (<TextChannel>interaction.channel).bulkDelete(amount, true);
     await interaction.reply(`删除掉了${amount}条信息！`);
     
     setTimeout(async () => await interaction.deleteReply(), 1000);

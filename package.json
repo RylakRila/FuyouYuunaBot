@@ -9,7 +9,7 @@
     "start": "node build/index.js"
   },
   "keywords": [],
-  "author": "StrikePants🐡",
+  "author": "StrikePants",
   "license": "ISC",
   "dependencies": {
     "@discordjs/rest": "^1.1.0",
