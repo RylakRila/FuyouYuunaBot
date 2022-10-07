@@ -25,7 +25,7 @@ async function clearHandler(interaction: ChatInputCommandInteraction) {
     await (<TextChannel>interaction.channel).bulkDelete(amount, true);
     await interaction.reply(`删除掉了${amount}条信息！`);
     
-    setTimeout(async () => await interaction.deleteReply(), 1000);
+    setTimeout(async () => await interaction.deleteReply(), 1500);
 }
 
 const commandHandlers = [
