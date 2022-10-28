@@ -6,7 +6,7 @@ import resources from '../JSON/resource.json';
 const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, link: string;
     
-    switch (interaction.options.getString("category")?.toLowerCase()) {
+    switch (interaction.options.getString("category")) {
         case "yuyuyu":
             totalNumber = resources.memes.yuyuyu.length;
             link = resources.memes.yuyuyu[crypto.randomInt(0, totalNumber)];
