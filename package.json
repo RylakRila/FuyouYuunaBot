@@ -14,7 +14,8 @@
   "dependencies": {
     "@discordjs/rest": "^1.1.0",
     "discord.js": "^14.3.0",
-    "hashmap": "^2.4.0"
+    "hashmap": "^2.4.0",
+    "mongoose": "^6.7.0"
   },
   "devDependencies": {
     "@types/hashmap": "^2.3.1",

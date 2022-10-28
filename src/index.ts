@@ -3,6 +3,7 @@ import { REST } from "discord.js";
 import * as dotenv from 'dotenv';
 import HashMap from "hashmap";
 
+import { connectMongoDB } from "./Database/Connection";
 import { memberAddHandler, readyHandler } from "./Handler/Handler";
 import commands from './Command/AllInOne';
 import commandHandlers from "./Handler/CommandHandler";
@@ -13,6 +14,7 @@ dotenv.config();
 // declaration
 const TOKEN = process.env.TOKEN as string;
 const CLIENT_ID = process.env.CLIENT_ID as string;
+const DB_URL = process.env.DB_URL as string;
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
@@ -43,6 +45,8 @@ nogiSonoko.on("interactionCreate", async interaction => {
 // launcher
 (async () => {
     try {
+        connectMongoDB(DB_URL);
+        
         console.log('Started refreshing app (/) commands.');
         await rest.put(
             Routes.applicationCommands(CLIENT_ID), 
