@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, TextChannel } from 'discord.js';
 import crypto from 'crypto';
 
 import Meme from '../Model/Meme';
-import Config from '../Model/config';
+import Config from '../Model/Config';
 
 const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, link: string;

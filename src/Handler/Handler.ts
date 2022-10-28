@@ -1,6 +1,6 @@
 import { GuildMember, TextChannel } from "discord.js";
 
-import Config from "../Model/config";
+import Config from "../Model/Config";
 
 export const readyHandler = () => {
     console.log(">>Bot is Online<<");
