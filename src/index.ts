@@ -8,10 +8,11 @@ import { memberAddHandler, readyHandler } from "./Handler/Handler";
 import commands from './Command/AllInOne';
 import commandHandlers from "./Handler/CommandHandler";
 
-// Pre-config
+//#region Pre-config
 dotenv.config();
+//#endregion
 
-// declaration
+//#region declaration
 const TOKEN = process.env.TOKEN as string;
 const CLIENT_ID = process.env.CLIENT_ID as string;
 const DB_URL = process.env.DB_URL as string;
@@ -25,13 +26,15 @@ const nogiSonoko = new Client({intents: [
 ]});
 
 const commandsMap: HashMap<string, (interaction: ChatInputCommandInteraction) => Promise<void>> = new HashMap();
+//#endregion
 
-// setup
+//#region setup
 for (let i = 0; i < commands.length; i++) {
     commandsMap.set(commands[i].name, commandHandlers[i]);
 }
+//#endregion
 
-// Events
+//#region Events
 nogiSonoko.once('ready', readyHandler);
 
 nogiSonoko.on("guildMemberAdd", memberAddHandler);
@@ -41,6 +44,7 @@ nogiSonoko.on("interactionCreate", async interaction => {
     let handler = commandsMap.get(interaction.commandName) as ((interaction: ChatInputCommandInteraction) => Promise<void>);
     handler(interaction);
 });
+//#endregion
 
 // launcher
 (async () => {
