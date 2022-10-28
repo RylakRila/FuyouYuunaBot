@@ -1,15 +1,19 @@
 import { ChatInputCommandInteraction, TextChannel } from 'discord.js';
 import crypto from 'crypto';
 
-import resources from '../JSON/resource.json';
+import Meme from '../Model/Meme';
+import Config from '../Model/config';
 
 const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, link: string;
     
+    // query data from mongodb
+    let memeData = await Meme.find({category: interaction.options.getString("category")});
+    
     switch (interaction.options.getString("category")) {
         case "yuyuyu":
-            totalNumber = resources.memes.yuyuyu.length;
-            link = resources.memes.yuyuyu[crypto.randomInt(0, totalNumber)];
+            totalNumber = memeData[0].images.length;
+            link = memeData[0].images[crypto.randomInt(0, totalNumber)];
             break;
         default:
             link = `没有在该类中的梗图：${interaction.options.getString("category")}`;
@@ -17,7 +21,7 @@ const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     }
     
     await interaction.reply(link);
-}
+};
 
 const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     let amount = interaction.options.getNumber("n")!;
@@ -26,9 +30,24 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     await interaction.reply(`删除掉了${amount}条信息！`);
     
     setTimeout(async () => await interaction.deleteReply(), 1500);
-}
+};
+
+const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
+    let welcomeChannelId = interaction.options.getString("channel-id")!;
+    let existedConfig = await Config.find({key: "welcomeChannelId"});
+    
+    const welcomeChannel = new Config({
+        "_id": existedConfig[0]._id,
+        "key": "welcomeChannelId",
+        "value": welcomeChannelId
+    });
+    
+    await Config.updateOne({key: "welcomeChannelId"}, welcomeChannel);
+    
+    await interaction.reply({content: `欢迎频道ID已更改为：${welcomeChannelId}`, ephemeral: true});
+};
 
 const commandHandlers = [
-    memeHandler, clearHandler
+    memeHandler, clearHandler, changeWelcomeChannelHandler
 ];
 export default commandHandlers;

@@ -1,12 +1,13 @@
 import { GuildMember, TextChannel } from "discord.js";
 
-import config from '../JSON/config.json';
+import Config from "../Model/config";
 
 export const readyHandler = () => {
     console.log(">>Bot is Online<<");
 };
 
 export const memberAddHandler = async (member: GuildMember) => {
-    let welcomeChannel = member.guild.channels.cache.get(config.welcome_channel) as TextChannel;
+    let configData = await Config.find({key: "welcomeChannelId"});
+    let welcomeChannel = member.guild.channels.cache.get(configData[0].value) as TextChannel;
     await welcomeChannel.send(`${member}加入了频道，我们鼓掌。`);
 }
