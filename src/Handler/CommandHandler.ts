@@ -3,7 +3,7 @@ import crypto from 'crypto';
 
 import resources from '../JSON/resource.json';
 
-async function memeHandler(interaction: ChatInputCommandInteraction) {
+const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, link: string;
     
     switch (interaction.options.getString("category")?.toLowerCase()) {
@@ -19,7 +19,7 @@ async function memeHandler(interaction: ChatInputCommandInteraction) {
     await interaction.reply(link);
 }
 
-async function clearHandler(interaction: ChatInputCommandInteraction) {
+const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     let amount = interaction.options.getNumber("n")!;
     
     await (<TextChannel>interaction.channel).bulkDelete(amount, true);
