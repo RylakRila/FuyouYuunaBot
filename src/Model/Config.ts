@@ -1,8 +1,11 @@
 import { Schema, model } from "mongoose";
 
 const ConfigSchema = new Schema({
-    key: String,
-    value: Schema.Types.Mixed
+    guildId: String,
+    configs: [{
+        key: String,
+        value: Schema.Types.Mixed
+    }]
 }, {
     collection: 'config',
 });

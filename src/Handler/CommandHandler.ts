@@ -34,17 +34,22 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
 
 const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
     let welcomeChannelId = interaction.options.getString("channel-id")!;
-    let existedConfig = await Config.find({key: "welcomeChannelId"});
+    let guildId = interaction.guildId!;
     
-    const welcomeChannel = new Config({
-        "_id": existedConfig[0]._id,
-        "key": "welcomeChannelId",
-        "value": welcomeChannelId
-    });
+    let existedConfig = await Config.find({guildId: guildId});
     
-    await Config.updateOne({key: "welcomeChannelId"}, welcomeChannel);
+    console.log(existedConfig[0].configs);
+    console.log(welcomeChannelId);
     
-    await interaction.reply({content: `欢迎频道ID已更改为：${welcomeChannelId}`, ephemeral: true});
+    // const welcomeChannel = new Config({
+    //     "_id": existedConfig[0]._id,
+    //     "key": "welcomeChannelId",
+    //     "value": welcomeChannelId
+    // });
+    
+    // await Config.updateOne({key: "welcomeChannelId"}, welcomeChannel);
+    
+    // await interaction.reply({content: `欢迎频道ID已更改为：${welcomeChannelId}`, ephemeral: true});
 };
 
 const commandHandlers = [
