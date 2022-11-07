@@ -19,7 +19,7 @@ const DB_URL = process.env.DB_URL as string;
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
-const nogiSonoko = new Client({intents: [
+const fuyouYuuna = new Client({intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages
@@ -35,10 +35,10 @@ for (let i = 0; i < commands.length; i++) {
 //#endregion
 
 //#region Events
-nogiSonoko.once('ready', readyHandler);
+fuyouYuuna.once('ready', readyHandler);
 
-nogiSonoko.on("guildMemberAdd", memberAddHandler);
-nogiSonoko.on("interactionCreate", async interaction => {
+fuyouYuuna.on("guildMemberAdd", memberAddHandler);
+fuyouYuuna.on("interactionCreate", async interaction => {
     if (!interaction.isChatInputCommand()) return;
     
     let handler = commandsMap.get(interaction.commandName) as ((interaction: ChatInputCommandInteraction) => Promise<void>);
@@ -49,7 +49,7 @@ nogiSonoko.on("interactionCreate", async interaction => {
 // launcher
 (async () => {
     try {
-        connectMongoDB(DB_URL);
+        await connectMongoDB(DB_URL);
         
         console.log('Started refreshing app (/) commands.');
         await rest.put(
@@ -57,7 +57,7 @@ nogiSonoko.on("interactionCreate", async interaction => {
             { body: commands }
         );
         
-        nogiSonoko.login(TOKEN);
+        fuyouYuuna.login(TOKEN);
     } catch (err) {
         console.error(err);
     }
