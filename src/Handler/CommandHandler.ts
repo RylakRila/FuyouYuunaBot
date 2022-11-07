@@ -12,8 +12,8 @@ const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     
     switch (interaction.options.getString("category")) {
         case "yuyuyu":
-            totalNumber = memeData[0].images.length;
-            link = memeData[0].images[crypto.randomInt(0, totalNumber)];
+            totalNumber = memeData[0].options.length;
+            link = memeData[0].options[crypto.randomInt(0, totalNumber)];
             break;
         default:
             link = `没有在该类中的梗图：${interaction.options.getString("category")}`;
