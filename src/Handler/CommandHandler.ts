@@ -27,9 +27,7 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     let amount = interaction.options.getNumber("n")!;
     
     await (<TextChannel>interaction.channel).bulkDelete(amount, true);
-    await interaction.reply(`删除掉了${amount}条信息！`);
-    
-    setTimeout(async () => await interaction.deleteReply(), 1500);
+    await interaction.reply({content: `删除掉了${amount}条信息！`, ephemeral: true});
 };
 
 const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
