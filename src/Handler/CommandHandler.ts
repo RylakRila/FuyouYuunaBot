@@ -33,23 +33,40 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
 };
 
 const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
-    let welcomeChannelId = interaction.options.getString("channel-id")!;
-    let guildId = interaction.guildId!;
+    let optionWelcomeChannelId = interaction.options.getString("channel-id");
     
-    let existedConfig = await Config.find({guildId: guildId});
+    let existedConfig = await Config.find({guildId: interaction.guildId});
     
-    console.log(existedConfig[0].configs);
-    console.log(welcomeChannelId);
+    // if guild id does not exist in database, create a new one
+    if (existedConfig.length === 0) {
+        Config.create({
+            guildId: interaction.guildId,
+            configs: [
+                {
+                    key: "welcomeChannelId",
+                    value: optionWelcomeChannelId
+                }
+            ]
+        });
+        
+        await interaction.reply({content: `欢迎信息将会在这个频道发送：${optionWelcomeChannelId}`, ephemeral: true});
+        return;
+    }
     
-    // const welcomeChannel = new Config({
-    //     "_id": existedConfig[0]._id,
-    //     "key": "welcomeChannelId",
-    //     "value": welcomeChannelId
-    // });
+    const welcomeChannel = new Config({
+        "_id": existedConfig[0]._id,
+        "guildId": interaction.guildId,
+        "configs": [
+            {
+                key: "welcomeChannelId",
+                value: optionWelcomeChannelId
+            }
+        ]
+    });
     
-    // await Config.updateOne({key: "welcomeChannelId"}, welcomeChannel);
+    await Config.updateOne({guildId: interaction.guildId}, welcomeChannel);
     
-    // await interaction.reply({content: `欢迎频道ID已更改为：${welcomeChannelId}`, ephemeral: true});
+    await interaction.reply({content: `欢迎频道ID已更改为：${optionWelcomeChannelId}`, ephemeral: true});
 };
 
 const commandHandlers = [

@@ -7,9 +7,9 @@ export const readyHandler = () => {
 };
 
 export const memberAddHandler = async (member: GuildMember) => {
-    let guildConfigs = await Config.findOne({ guildId: member.guild.id });
+    let guildConfigs = await Config.find({ guildId: member.guild.id });
     let welcomeChannel = member.guild.channels.cache.get(
-        guildConfigs?.configs.find(config => config.key === "welcomeChannelId")?.value
+        guildConfigs[0].configs.find(config => config.key === "welcomeChannelId")?.value
     ) as TextChannel;
     
     await welcomeChannel.send(`${member}加入了频道，我们鼓掌。`);
