@@ -7,7 +7,7 @@ const ConfigSchema = new Schema({
         value: Schema.Types.Mixed
     }]
 }, {
-    collection: 'config',
+    collection: 'configs',
 });
 
 const Config = model("Config", ConfigSchema);
