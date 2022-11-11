@@ -56,8 +56,9 @@ fuyouYuuna.on("interactionCreate", async interaction => {
             Routes.applicationCommands(CLIENT_ID), 
             { body: commands }
         );
+        console.log('Successfully reloaded app (/) commands.');
         
-        fuyouYuuna.login(TOKEN);
+        await fuyouYuuna.login(TOKEN);
     } catch (err) {
         console.error(err);
     }

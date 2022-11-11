@@ -24,10 +24,33 @@ const memeHandler = async (interaction: ChatInputCommandInteraction) => {
 };
 
 const clearHandler = async (interaction: ChatInputCommandInteraction) => {
-    let amount = interaction.options.getNumber("n")!;
+    if (!(interaction.channel instanceof TextChannel)) return;
     
-    await (<TextChannel>interaction.channel).bulkDelete(amount, true);
-    await interaction.reply({content: `删除掉了${amount}条信息！`, ephemeral: true});
+    let amount = interaction.options.getNumber("n")!;
+    let targetUser = interaction.options.getUser("target")!;
+    
+    let messageManager = interaction.channel.messages;
+    
+    if (targetUser) {
+        await interaction.deferReply({ephemeral: true});
+        
+        await messageManager.fetch().then(async messages => {
+            let targetedMessages = messages.filter(message => message.author.id === targetUser.id);
+            await Promise.all(targetedMessages.first(amount).map(async message => await message.delete()));
+        });
+        
+        await interaction.editReply({content: `已删除${amount}条${targetUser.username}的消息`});
+        
+        return;
+    }
+    
+    await interaction.deferReply({ephemeral: true});
+    
+    await messageManager.fetch({limit: amount}).then(async messages => {
+        await Promise.all(messages.map(async message => await message.delete()));
+    });
+    
+    await interaction.editReply({content: `已删除${amount}条消息`});
 };
 
 const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {

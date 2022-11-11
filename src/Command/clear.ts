@@ -6,8 +6,10 @@ const clearCommand = new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .addNumberOption(option =>
         option.setName("n")
-            .setDescription("清除的信息条数")
-            .setRequired(true)
-    );
+            .setDescription("清除的消息条数")
+            .setRequired(true))
+    .addUserOption(option => 
+        option.setName("target")
+            .setDescription("删除特定用户的消息"));
     
 export default clearCommand;
