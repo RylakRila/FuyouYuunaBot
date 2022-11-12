@@ -3,7 +3,7 @@ import { REST } from "discord.js";
 import * as dotenv from 'dotenv';
 import HashMap from "hashmap";
 
-import { connectMongoDB } from "./Database/Connection";
+import { connectMongoDB } from "./MiddleWare/DBConnection";
 import { memberAddHandler, readyHandler } from "./Handler/Handler";
 import commands from './Command/AllInOne';
 import commandHandlers from "./Handler/CommandHandler";
