@@ -5,7 +5,7 @@ import HashMap from "hashmap";
 
 import { connectMongoDB } from "./MiddleWare/DBConnection";
 import { memberAddHandler, readyHandler } from "./Handler/Handler";
-import commands from './Command/AllInOne';
+import commands from './MiddleWare/AllInOne';
 import commandHandlers from "./Handler/CommandHandler";
 
 //#region Pre-config
