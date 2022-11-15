@@ -4,7 +4,7 @@ const MemeSchema = new Schema({
     category: String,
     options: [String],
 }, {
-    collection: 'memes',
+    collection: 'memes'
 });
 
 const Meme = model('Meme', MemeSchema);
