@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 import HashMap from "hashmap";
 
 import { connectMongoDB } from "./MiddleWare/DBConnection";
-import { memberAddHandler, readyHandler } from "./Handler/Handler";
+import { keywordHandler, memberAddHandler, readyHandler } from "./Handler/Handler";
 import commands from './MiddleWare/AllInOne';
 import commandHandlers from "./Handler/CommandHandler";
 
@@ -19,10 +19,11 @@ const DB_URL = process.env.DB_URL as string;
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
-const fuyouYuuna = new Client({intents: [
+export const fuyouYuuna = new Client({intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildMessages
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
 ]});
 
 const commandsMap: HashMap<string, (interaction: ChatInputCommandInteraction) => Promise<void>> = new HashMap();
@@ -38,10 +39,11 @@ for (let i = 0; i < commands.length; i++) {
 fuyouYuuna.once('ready', readyHandler);
 
 fuyouYuuna.on("guildMemberAdd", memberAddHandler);
+fuyouYuuna.on("messageCreate", keywordHandler);
 fuyouYuuna.on("interactionCreate", async interaction => {
     if (!interaction.isChatInputCommand()) return;
     
-    let handler = commandsMap.get(interaction.commandName) as ((interaction: ChatInputCommandInteraction) => Promise<void>);
+    let handler = commandsMap.get(interaction.commandName)!;
     handler(interaction);
 });
 //#endregion
@@ -58,7 +60,7 @@ fuyouYuuna.on("interactionCreate", async interaction => {
         );
         console.log('Successfully reloaded app (/) commands.');
         
-        await fuyouYuuna.login(TOKEN);
+        fuyouYuuna.login(TOKEN);
     } catch (err) {
         console.error(err);
     }
