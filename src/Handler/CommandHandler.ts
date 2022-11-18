@@ -25,15 +25,14 @@ const memeHandler = async (interaction: ChatInputCommandInteraction) => {
 
 const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     if (!(interaction.channel instanceof TextChannel)) return;
+    let messageManager = interaction.channel.messages;
     
     let amount = interaction.options.getNumber("n")!;
     let targetUser = interaction.options.getUser("target")!;
     
-    let messageManager = interaction.channel.messages;
+    await interaction.deferReply({ephemeral: true});
     
     if (targetUser) {
-        await interaction.deferReply({ephemeral: true});
-        
         await messageManager.fetch().then(async messages => {
             let targetedMessages = messages.filter(message => message.author.id === targetUser.id);
             await Promise.all(targetedMessages.first(amount).map(async message => await message.delete()));
@@ -43,8 +42,6 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
         
         return;
     }
-    
-    await interaction.deferReply({ephemeral: true});
     
     await messageManager.fetch({limit: amount}).then(async messages => {
         await Promise.all(messages.map(async message => await message.delete()));
