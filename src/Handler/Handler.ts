@@ -10,6 +10,8 @@ export const readyHandler = () => {
 
 export const memberAddHandler = async (member: GuildMember) => {
     let guildConfigs = await Config.find({ guildId: member.guild.id });
+    if (guildConfigs.length === 0) return;
+    
     let welcomeChannel = member.guild.channels.cache.get(
         guildConfigs[0].configs.find(config => config.key === "welcomeChannelId")!.value
     ) as TextChannel;
