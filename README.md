@@ -1,3 +1,3 @@
-# YuYuYu_Bot
+# FuyouYuunaBot
 
-A simple discord bot hosting in Heroku
+A simple discord bot 
