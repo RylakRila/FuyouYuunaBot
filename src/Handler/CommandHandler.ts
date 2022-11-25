@@ -51,7 +51,14 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
 };
 
 const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
-    let optionWelcomeChannelId = interaction.options.getString("channel-id");
+    let optionWelcomeChannel = interaction.options.getChannel("channel");
+    
+    if (!(optionWelcomeChannel instanceof TextChannel)) {
+        await interaction.reply({content: "请提供一个文本频道", ephemeral: true});
+        return;
+    }
+    
+    let welcomeChannelId = optionWelcomeChannel.id;
     
     let existedConfig = await Config.find({guildId: interaction.guildId});
     
@@ -62,12 +69,12 @@ const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteract
             configs: [
                 {
                     key: "welcomeChannelId",
-                    value: optionWelcomeChannelId
+                    value: welcomeChannelId
                 }
             ]
         });
         
-        await interaction.reply({content: `欢迎信息将会在这个频道发送：${optionWelcomeChannelId}`, ephemeral: true});
+        await interaction.reply({content: `欢迎信息将会在这个频道发送：${optionWelcomeChannel.name}`, ephemeral: true});
         return;
     }
     
@@ -77,14 +84,14 @@ const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteract
         "configs": [
             {
                 key: "welcomeChannelId",
-                value: optionWelcomeChannelId
+                value: welcomeChannelId
             }
         ]
     });
     
     await Config.updateOne({guildId: interaction.guildId}, welcomeChannel);
     
-    await interaction.reply({content: `欢迎频道ID已更改为：${optionWelcomeChannelId}`, ephemeral: true});
+    await interaction.reply({content: `欢迎频道ID已更改为：${optionWelcomeChannel.name}`, ephemeral: true});
 };
 
 const commandHandlers = [
