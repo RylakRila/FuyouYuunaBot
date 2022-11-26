@@ -22,8 +22,7 @@ export const memberAddHandler = async (member: GuildMember) => {
 export const keywordHandler = async (message: Message<boolean>) => {
     const SUMO_GUILD_ID = process.env.SUMO_GUILD_ID as string;
 
-    if (message.guildId !== SUMO_GUILD_ID || 
-        message.author.bot) return;
+    if (message.guildId !== SUMO_GUILD_ID || message.author.bot) return;
     
     let keywordDocs = Keyword.find();
     

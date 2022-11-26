@@ -3,6 +3,7 @@ import crypto from 'crypto';
 
 import Meme from '../Model/Meme';
 import Config from '../Model/Config';
+import deleteMsgByUser from '../MiddleWare/deleteMsgByUser';
 
 const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, link: string;
@@ -33,18 +34,16 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     await interaction.deferReply({ephemeral: true});
     
     if (targetUser) {
-        await messageManager.fetch().then(async messages => {
-            let targetedMessages = messages.filter(message => message.author.id === targetUser.id);
-            await Promise.all(targetedMessages.first(amount).map(async message => await message.delete()));
-        });
-        
-        await interaction.editReply({content: `已删除${amount}条${targetUser.username}的消息`});
+        deleteMsgByUser(messageManager, targetUser, amount);
+        await interaction.editReply({content: `已删除${amount}条**${targetUser.username}**的消息`});
         
         return;
     }
     
     await messageManager.fetch({limit: amount}).then(async messages => {
-        await Promise.all(messages.map(async message => await message.delete()));
+        await Promise.all(
+            messages.map(async message => await message.delete())
+        );
     });
     
     await interaction.editReply({content: `已删除${amount}条消息`});
@@ -58,8 +57,6 @@ const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteract
         return;
     }
     
-    let welcomeChannelId = optionWelcomeChannel.id;
-    
     let existedConfig = await Config.find({guildId: interaction.guildId});
     
     // if guild id does not exist in database, create a new one
@@ -69,7 +66,7 @@ const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteract
             configs: [
                 {
                     key: "welcomeChannelId",
-                    value: welcomeChannelId
+                    value: optionWelcomeChannel.id
                 }
             ]
         });
@@ -78,18 +75,19 @@ const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteract
         return;
     }
     
-    const welcomeChannel = new Config({
+    // update the existed config
+    const newWelcomeChannel = new Config({
         "_id": existedConfig[0]._id,
-        "guildId": interaction.guildId,
+        "guildId": existedConfig[0].guildId,
         "configs": [
             {
                 key: "welcomeChannelId",
-                value: welcomeChannelId
+                value: optionWelcomeChannel.id
             }
         ]
     });
     
-    await Config.updateOne({guildId: interaction.guildId}, welcomeChannel);
+    await Config.updateOne({guildId: interaction.guildId}, newWelcomeChannel);
     
     await interaction.reply({content: `欢迎频道ID已更改为：${optionWelcomeChannel.name}`, ephemeral: true});
 };
