@@ -3,7 +3,7 @@ import crypto from 'crypto';
 
 import Meme from '../Model/Meme';
 import Config from '../Model/Config';
-import deleteMsgByUser from '../MiddleWare/deleteMsgByUser';
+import deleteMsgByUser from '../MiddleWare/DeleteMsgByUser';
 
 const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, link: string;
