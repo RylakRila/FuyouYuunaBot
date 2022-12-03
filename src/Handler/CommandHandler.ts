@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, TextChannel } from 'discord.js';
+import { ChatInputCommandInteraction, TextChannel, User } from 'discord.js';
 import crypto from 'crypto';
 
 import Meme from '../Model/Meme';
@@ -29,7 +29,7 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     let messageManager = interaction.channel.messages;
     
     let amount = interaction.options.getNumber("n")!;
-    let targetUser = interaction.options.getUser("target")!;
+    let targetUser = interaction.options.getUser("target") as User;
     
     await interaction.deferReply({ephemeral: true});
     

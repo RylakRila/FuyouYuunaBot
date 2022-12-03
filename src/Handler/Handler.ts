@@ -26,10 +26,11 @@ export const keywordHandler = async (message: Message<boolean>) => {
     
     let keywordDocs = Keyword.find();
     
-    (await keywordDocs).forEach(keywordDoc => {
-        if (keywordDoc.keywords.some(keyword => message.content.toLowerCase().includes(keyword))) {
-            let total = keywordDoc.responses.length;
-            message.reply(keywordDoc.responses[crypto.randomInt(0, total)]);
-        }
-    });
+    (await keywordDocs)
+        .forEach(keywordDoc => {
+            if (keywordDoc.keywords.some(keyword => message.content.toLowerCase().includes(keyword))) {
+                let total = keywordDoc.responses.length;
+                message.reply(keywordDoc.responses[crypto.randomInt(0, total)]);
+            }
+        });
 }
