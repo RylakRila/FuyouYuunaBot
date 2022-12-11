@@ -63,8 +63,10 @@ export const changeWelcomeChannelHandler = async (interaction: ChatInputCommandI
     
     // determine if the config array has the "welcomeChannelId" config key
     if (guildConfig.configs.some(config => config.key === "welcomeChannelId")) {
+        // if the config array has the "welcomeChannelId" config key, then change the value
         guildConfig.configs.find(config => config.key === "welcomeChannelId")!.value = optionWelcomeChannel.id;
     } else {
+        // if not, then push a new config key-value pair
         guildConfig.configs.push({
             key: "welcomeChannelId",
             value: optionWelcomeChannel.id
