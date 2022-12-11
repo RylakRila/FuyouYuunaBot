@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 
 import { connectMongoDB } from "./MiddleWare/DBConnection";
 import { keywordHandler, memberAddHandler, readyHandler } from "./Handler/Handler";
-import { commands, commandHandlerMap } from './MiddleWare/PassCommands';
+import { commands, commandHandlerMap } from './Command/PassCommands';
 
 //#region Pre-config
 dotenv.config();
