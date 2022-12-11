@@ -5,7 +5,7 @@ import Meme from '../Model/Meme';
 import Config from '../Model/Config';
 import deleteMsgByUser from '../MiddleWare/DeleteMsgByUser';
 
-const memeHandler = async (interaction: ChatInputCommandInteraction) => {
+export const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, link: string;
     
     // query data from mongodb
@@ -24,7 +24,7 @@ const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     await interaction.reply(link);
 };
 
-const clearHandler = async (interaction: ChatInputCommandInteraction) => {
+export const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     if (!(interaction.channel instanceof TextChannel)) return;
     let messageManager = interaction.channel.messages;
     
@@ -49,7 +49,7 @@ const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     await interaction.editReply({content: `已删除${amount}条消息`});
 };
 
-const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
+export const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
     let optionWelcomeChannel = interaction.options.getChannel("channel");
     
     if (!(optionWelcomeChannel instanceof TextChannel)) {
@@ -91,8 +91,3 @@ const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteract
     
     await interaction.reply({content: `欢迎频道ID已更改为：${optionWelcomeChannel.name}`, ephemeral: true});
 };
-
-const commandHandlers = [
-    memeHandler, clearHandler, changeWelcomeChannelHandler
-];
-export default commandHandlers;

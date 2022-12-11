@@ -1,11 +1,10 @@
-import { ChatInputCommandInteraction, Client, GatewayIntentBits, Routes } from "discord.js";
+import { Client, GatewayIntentBits, Routes } from "discord.js";
 import { REST } from "discord.js";
 import * as dotenv from 'dotenv';
 
 import { connectMongoDB } from "./MiddleWare/DBConnection";
 import { keywordHandler, memberAddHandler, readyHandler } from "./Handler/Handler";
-import commands from './MiddleWare/AllInOne';
-import commandHandlers from "./Handler/CommandHandler";
+import { commands, commandHandlerMap } from './MiddleWare/PassCommands';
 
 //#region Pre-config
 dotenv.config();
@@ -24,14 +23,6 @@ export const fuyouYuuna = new Client({intents: [
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent
 ]});
-
-const commandsMap: Map<string, (interaction: ChatInputCommandInteraction) => Promise<void>> = new Map();
-//#endregion
-
-//#region setup
-commands.forEach((command, index) => {
-    commandsMap.set(command.name, commandHandlers[index]);
-});
 //#endregion
 
 //#region Events
@@ -42,7 +33,7 @@ fuyouYuuna.on("messageCreate", keywordHandler);
 fuyouYuuna.on("interactionCreate", async interaction => {
     if (!interaction.isChatInputCommand()) return;
     
-    commandsMap.get(interaction.commandName)!(interaction);
+    commandHandlerMap.get(interaction.commandName)!(interaction);
 });
 //#endregion
 
