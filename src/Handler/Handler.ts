@@ -9,11 +9,11 @@ export const readyHandler = () => {
 };
 
 export const memberAddHandler = async (member: GuildMember) => {
-    let guildConfigs = await Config.find({ guildId: member.guild.id });
-    if (guildConfigs.length === 0) return;
+    let guildConfig = await Config.findOne({ guildId: member.guild.id });
+    if (!guildConfig) return;
     
     let welcomeChannel = member.guild.channels.cache.get(
-        guildConfigs[0].configs.find(config => config.key === "welcomeChannelId")!.value
+        guildConfig.configs.find(config => config.key === "welcomeChannelId")!.value
     ) as TextChannel;
     
     await welcomeChannel.send(`${member}加入了频道，我们鼓掌。`);
@@ -24,9 +24,7 @@ export const keywordHandler = async (message: Message<boolean>) => {
 
     if (message.guildId !== SUMO_GUILD_ID || message.author.bot) return;
     
-    let keywordDocs = Keyword.find();
-    
-    (await keywordDocs)
+    (await Keyword.find())
         .forEach(keywordDoc => {
             if (keywordDoc.keywords.some(keyword => message.content.toLowerCase().includes(keyword))) {
                 let total = keywordDoc.responses.length;
