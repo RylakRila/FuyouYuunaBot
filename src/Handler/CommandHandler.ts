@@ -3,11 +3,11 @@ import crypto from 'crypto';
 
 import Meme from '../Model/Meme';
 import Config from '../Model/Config';
-import deleteMsgByUser from '../MiddleWare/DeleteMsgByUser';
 import { configGuard } from '../MiddleWare/Guards';
 
 export const memeHandler = async (interaction: ChatInputCommandInteraction) => {
-    let totalNumber: number, link: string;
+    let totalNumber: number, 
+        link: string;
     
     // query data from mongodb
     let memeData = await Meme.find({category: interaction.options.getString("category")});
@@ -27,27 +27,31 @@ export const memeHandler = async (interaction: ChatInputCommandInteraction) => {
 
 export const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     if (!(interaction.channel instanceof TextChannel)) return;
-    let messageManager = interaction.channel.messages;
     
-    let amount = interaction.options.getNumber("n")!;
-    let targetUser = interaction.options.getUser("target") as User;
+    let messageManager = interaction.channel.messages,
+        amount = interaction.options.getNumber("n")!,
+        targetUser = interaction.options.getUser("target") as User;
     
     await interaction.deferReply({ephemeral: true});
     
     if (targetUser) {
-        deleteMsgByUser(messageManager, targetUser, amount);
+        await messageManager.fetch().then(async messages => {
+            await Promise.all(
+                messages
+                    .filter(message => message.author.id === targetUser.id)
+                    .first(amount)
+                    .map(async message => await message.delete())
+            )
+        })
         await interaction.editReply({content: `已删除${amount}条**${targetUser.username}**的消息`});
-        
-        return;
+    } else {
+        await messageManager.fetch({limit: amount}).then(async messages => {
+            await Promise.all(
+                messages.map(async message => await message.delete())
+            );
+        });
+        await interaction.editReply({content: `已删除${amount}条消息`});
     }
-    
-    await messageManager.fetch({limit: amount}).then(async messages => {
-        await Promise.all(
-            messages.map(async message => await message.delete())
-        );
-    });
-    
-    await interaction.editReply({content: `已删除${amount}条消息`});
 };
 
 export const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
