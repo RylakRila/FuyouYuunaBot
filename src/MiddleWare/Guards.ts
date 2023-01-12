@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction } from "discord.js";
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 import Config from "../Model/Config";
 
 /** 
@@ -12,7 +12,11 @@ import Config from "../Model/Config";
 export const configGuard = async (
     interaction: ChatInputCommandInteraction, 
     configDocument: (Document & { 
-        _id: mongoose.Types.ObjectId, configs: {}[] 
+        _id: mongoose.Types.ObjectId, 
+        configs: {
+            key: string,
+            value?: Schema.Types.Mixed
+        }[]
     }) | null
 ) => {
     if (configDocument) return configDocument;

@@ -3,7 +3,10 @@ import { Schema, model } from "mongoose";
 const ConfigSchema = new Schema({
     guildId: String,
     configs: [{
-        key: String,
+        key: {
+            type: String,
+            required: true
+        },
         value: Schema.Types.Mixed
     }]
 }, {

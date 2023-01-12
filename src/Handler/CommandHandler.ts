@@ -10,7 +10,7 @@ export const memeHandler = async (interaction: ChatInputCommandInteraction) => {
         link: string;
     
     // query data from mongodb
-    let memeData = await Meme.find({category: interaction.options.getString("category")});
+    const memeData = await Meme.find({category: interaction.options.getString("category")});
     
     switch (interaction.options.getString("category")) {
         case "yuyuyu":
@@ -28,9 +28,9 @@ export const memeHandler = async (interaction: ChatInputCommandInteraction) => {
 export const clearHandler = async (interaction: ChatInputCommandInteraction) => {
     if (!(interaction.channel instanceof TextChannel)) return;
     
-    let messageManager = interaction.channel.messages,
-        amount = interaction.options.getNumber("n")!,
-        targetUser = interaction.options.getUser("target") as User;
+    const messageManager = interaction.channel.messages,
+          amount = interaction.options.getNumber("n") as number,
+          targetUser = interaction.options.getUser("target") as User;
     
     await interaction.deferReply({ephemeral: true});
     
@@ -55,8 +55,8 @@ export const clearHandler = async (interaction: ChatInputCommandInteraction) => 
 };
 
 export const changeWelcomeChannelHandler = async (interaction: ChatInputCommandInteraction) => {
-    let optionWelcomeChannel = interaction.options.getChannel("channel")!,
-        guildConfig = await Config.findOne({guildId: interaction.guildId});
+    const optionWelcomeChannel = interaction.options.getChannel("channel");
+    let guildConfig = await Config.findOne({guildId: interaction.guildId});
     
     if (!(optionWelcomeChannel instanceof TextChannel)) {
         await interaction.reply({content: "请提供一个文本频道", ephemeral: true});

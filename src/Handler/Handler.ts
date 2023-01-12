@@ -9,12 +9,12 @@ export const readyHandler = () => {
 };
 
 export const memberAddHandler = async (member: GuildMember) => {
-    let guildConfig = await Config.findOne({ guildId: member.guild.id });
-    if (!guildConfig) return;
+    const guildConfigs = await Config.findOne({ guildId: member.guild.id });
+    if (!guildConfigs) return;
     
-    let welcomeChannel = member.guild.channels.cache.get(
-        guildConfig.configs.find(config => config.key === "welcomeChannelId")!.value
-    ) as TextChannel;
+    const welcomeChannelId = guildConfigs.configs.find(config => config.key === "welcomeChannelId")?.value;
+    
+    const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId) as TextChannel;
     
     await welcomeChannel.send(`${member}加入了频道，我们鼓掌。`);
 }
@@ -24,11 +24,9 @@ export const keywordHandler = async (message: Message<boolean>) => {
 
     if (message.guildId !== SUMO_GUILD_ID || message.author.bot) return;
     
-    (await Keyword.find())
-        .forEach(keywordDoc => {
-            if (keywordDoc.keywords.some(keyword => message.content.toLowerCase().includes(keyword))) {
-                let total = keywordDoc.responses.length;
-                message.reply(keywordDoc.responses[crypto.randomInt(0, total)]);
-            }
-        });
+    (await Keyword.find()).forEach(keywordDoc => {
+        if (keywordDoc.keywords.some(keyword => message.content.toLowerCase().includes(keyword))) {
+            message.reply(keywordDoc.responses[crypto.randomInt(0, keywordDoc.responses.length)]);
+        }
+    });
 }
