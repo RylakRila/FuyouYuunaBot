@@ -39,18 +39,14 @@ fuyouYuuna.on("interactionCreate", async interaction => {
 
 // launcher
 (async () => {
-    try {
-        await connectMongoDB(DB_URL);
+    await connectMongoDB(DB_URL);
         
-        console.log('Started refreshing app (/) commands.');
-        await rest.put(
-            Routes.applicationCommands(CLIENT_ID), 
-            { body: commands }
-        );
-        console.log('Successfully reloaded app (/) commands.');
-        
-        fuyouYuuna.login(TOKEN);
-    } catch (err) {
-        console.error(err);
-    }
+    console.log('Started refreshing app (/) commands.');
+    await rest.put(
+        Routes.applicationCommands(CLIENT_ID), 
+        { body: commands }
+    ).catch(err => console.error(err));
+    console.log('Successfully reloaded app (/) commands.');
+    
+    await fuyouYuuna.login(TOKEN);
 })();
