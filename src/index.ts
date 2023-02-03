@@ -47,6 +47,6 @@ fuyouYuuna.on("interactionCreate", async interaction => {
         { body: commands }
     ).catch(err => console.error(err));
     console.log('Successfully reloaded app (/) commands.');
-    
+        
     await fuyouYuuna.login(TOKEN);
 })();
