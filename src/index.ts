@@ -2,9 +2,9 @@ import { Client, GatewayIntentBits, Routes } from "discord.js";
 import { REST } from "discord.js";
 import * as dotenv from 'dotenv';
 
-import { connectMongoDB } from "./MiddleWare/DBConnection";
-import { keywordHandler, memberAddHandler, readyHandler } from "./Handler/Handler";
-import { commands, commandHandlerMap } from './Command/PassCommands';
+import { connectMongoDB } from "./Helpers/DBConnection";
+import { keywordHandler, memberAddHandler, readyHandler } from "./Handlers/Handler";
+import { commands, commandHandlerMap } from './Commands/PassCommands';
 
 //#region Pre-config
 dotenv.config();

@@ -3,7 +3,7 @@ import crypto from 'crypto';
 
 import Meme from '../Model/Meme';
 import Config from '../Model/Config';
-import { configGuard } from '../MiddleWare/Guards';
+import { configGuard } from '../Helpers/Guards';
 
 export const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, 
@@ -36,19 +36,14 @@ export const clearHandler = async (interaction: ChatInputCommandInteraction) => 
     
     if (targetUser) {
         await messageManager.fetch().then(async messages => {
-            await Promise.all(
-                messages
-                    .filter(message => message.author.id === targetUser.id)
-                    .first(amount)
-                    .map(async message => await message.delete())
-            )
-        })
+            await Promise.all(messages.filter(message => message.author.id === targetUser.id)
+                .first(amount)
+                .map(async message => await message.delete()));
+        });
         await interaction.editReply({content: `已删除${amount}条**${targetUser.username}**的消息`});
     } else {
         await messageManager.fetch({limit: amount}).then(async messages => {
-            await Promise.all(
-                messages.map(async message => await message.delete())
-            );
+            await Promise.all(messages.map(async message => await message.delete()));
         });
         await interaction.editReply({content: `已删除${amount}条消息`});
     }
