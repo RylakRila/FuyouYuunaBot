@@ -1,8 +1,8 @@
 import { ChatInputCommandInteraction } from "discord.js";
 
-import changeWelcomeChannelCommand from "./changeWelcomeChannel";
-import clearCommand from "./clear";
-import memeCommand from "./meme";
+import changeWelcomeChannelCommand from "../Commands/changeWelcomeChannel";
+import clearCommand from "../Commands/clear";
+import memeCommand from "../Commands/meme";
 import { changeWelcomeChannelHandler, clearHandler, memeHandler } from "../Handlers/CommandHandler";
 
 // Command list posted to Discord API
