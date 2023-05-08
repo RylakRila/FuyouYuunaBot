@@ -106,3 +106,9 @@ export const chatHandler = async (interaction: ChatInputCommandInteraction) => {
     
     await interaction.editReply({ embeds: [embedReply] });
 };
+
+export const clearChatHandler = async (interaction: ChatInputCommandInteraction) => {
+    chatMessages.splice(1);
+    
+    interaction.reply("已清除聊天机器人的对话上下文");
+};
