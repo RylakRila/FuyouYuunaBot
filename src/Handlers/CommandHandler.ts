@@ -2,8 +2,8 @@ import { ChatInputCommandInteraction, TextChannel, User, EmbedBuilder } from 'di
 import { ChatCompletionRequestMessage } from 'openai';
 import crypto from 'crypto';
 
-import Meme from '../Model/Meme';
-import Config from '../Model/Config';
+import Meme from '../Models/Meme';
+import Config from '../Models/Config';
 import { configGuard } from '../Helpers/Guards';
 import { openAI } from '../Utilities/OpenAI';
 import { chatMessages } from '../Utilities/ChatMsgArray';

@@ -1,6 +1,6 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import mongoose, { Document, Schema } from "mongoose";
-import Config from "../Model/Config";
+import Config from "../Models/Config";
 
 /** 
 *   This function is used to check if the guild has a config document in the database.

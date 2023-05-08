@@ -1,8 +1,8 @@
 import { GuildMember, Message, TextChannel } from "discord.js";
 import crypto from "crypto";
 
-import Config from "../Model/Config";
-import Keyword from "../Model/Keywords";
+import Config from "../Models/Config";
+import Keyword from "../Models/Keywords";
 
 export const readyHandler = () => {
     console.log(">>Bot is Online<<");
