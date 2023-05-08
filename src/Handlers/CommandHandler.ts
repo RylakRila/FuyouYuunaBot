@@ -1,9 +1,12 @@
-import { ChatInputCommandInteraction, TextChannel, User } from 'discord.js';
+import { ChatInputCommandInteraction, TextChannel, User, EmbedBuilder } from 'discord.js';
+import { ChatCompletionRequestMessage } from 'openai';
 import crypto from 'crypto';
 
 import Meme from '../Model/Meme';
 import Config from '../Model/Config';
 import { configGuard } from '../Helpers/Guards';
+import { openAI } from '../Utilities/OpenAI';
+import { chatMessages } from '../Utilities/ChatMsgArray';
 
 export const memeHandler = async (interaction: ChatInputCommandInteraction) => {
     let totalNumber: number, 
@@ -74,4 +77,32 @@ export const changeWelcomeChannelHandler = async (interaction: ChatInputCommandI
     await guildConfig.save();
     
     await interaction.reply({content: `欢迎频道将在该频道发送：${optionWelcomeChannel.name}`, ephemeral: true});
+};
+
+export const chatHandler = async (interaction: ChatInputCommandInteraction) => {
+    const userPrompt: ChatCompletionRequestMessage = {
+        role: 'user',
+        content: interaction.options.getString("message") as string
+    }
+    
+    chatMessages.push(userPrompt);
+    
+    await interaction.deferReply({ephemeral: false});
+    
+    const completion = await openAI.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: chatMessages
+    });
+    
+    /** 
+     * push the response message (ChatCompletionRequestMessage object) 
+     * to the chatMessages array **/
+    chatMessages.push(completion.data.choices[0].message!);
+    
+    const embedReply = new EmbedBuilder()
+        .setColor("#FFFBAC")
+        .setTitle(`\\> ${interaction.options.getString("message") as string}`)
+        .setDescription(`${completion.data.choices[0].message?.content as string}`);
+    
+    await interaction.editReply({ embeds: [embedReply] });
 };
