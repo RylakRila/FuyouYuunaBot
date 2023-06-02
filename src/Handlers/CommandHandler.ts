@@ -94,9 +94,10 @@ export const chatHandler = async (interaction: ChatInputCommandInteraction) => {
         messages: chatMessages
     });
     
-    /** 
+    /* 
      * push the response message (ChatCompletionRequestMessage object) 
-     * to the chatMessages array **/
+     * to the chatMessages array
+     * */
     chatMessages.push(completion.data.choices[0].message!);
     
     const embedReply = new EmbedBuilder()
@@ -110,5 +111,5 @@ export const chatHandler = async (interaction: ChatInputCommandInteraction) => {
 export const clearChatHandler = async (interaction: ChatInputCommandInteraction) => {
     chatMessages.splice(1);
     
-    interaction.reply("已清除聊天机器人的对话上下文");
+    await interaction.reply("已清除聊天机器人的对话上下文");
 };
