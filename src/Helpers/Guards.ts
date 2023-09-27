@@ -14,7 +14,7 @@ export const configGuard = async (
     configDocument: (Document & { 
         _id: mongoose.Types.ObjectId, 
         configs: {
-            key?: string | undefined,
+            key: string,
             value?: Schema.Types.Mixed
         }[]
     }) | null
