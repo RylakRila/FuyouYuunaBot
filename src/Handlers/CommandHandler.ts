@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, TextChannel, User, EmbedBuilder } from 'discord.js';
-import { ChatCompletionRequestMessage } from 'openai';
+import { ChatCompletionMessageParam } from 'openai/resources/chat';
 import crypto from 'crypto';
 
 import Meme from '../Models/Meme';
@@ -80,7 +80,7 @@ export const changeWelcomeChannelHandler = async (interaction: ChatInputCommandI
 };
 
 export const chatHandler = async (interaction: ChatInputCommandInteraction) => {
-    const userPrompt: ChatCompletionRequestMessage = {
+    const userPrompt: ChatCompletionMessageParam = {
         role: 'user',
         content: interaction.options.getString("message") as string
     }
@@ -89,7 +89,7 @@ export const chatHandler = async (interaction: ChatInputCommandInteraction) => {
     
     await interaction.deferReply({ephemeral: false});
     
-    const completion = await openAI.createChatCompletion({
+    const completion = await openAI.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: chatMessages
     });
@@ -98,12 +98,12 @@ export const chatHandler = async (interaction: ChatInputCommandInteraction) => {
      * push the response message (ChatCompletionRequestMessage object) 
      * to the chatMessages array
      * */
-    chatMessages.push(completion.data.choices[0].message!);
+    chatMessages.push(completion.choices[0].message!);
     
     const embedReply = new EmbedBuilder()
         .setColor("#FFFBAC")
         .setTitle(`\\> ${interaction.options.getString("message") as string}`)
-        .setDescription(`${completion.data.choices[0].message?.content as string}`);
+        .setDescription(`${completion.choices[0].message?.content as string}`);
     
     await interaction.editReply({ embeds: [embedReply] });
 };
